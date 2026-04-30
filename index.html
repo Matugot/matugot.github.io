@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mateo Gotelli — Desarrollador Full-Stack & IA</title>
+<meta name="description" content="Desarrollador Full-Stack y automatización con IA. Construyo herramientas que eliminan trabajo manual usando React, Node.js, Python y APIs de Claude/OpenAI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #080B14;
+    --bg2:     #0D1120;
+    --bg3:     #131828;
+    --border:  rgba(255,255,255,0.07);
+    --pri:     #6C63FF;
+    --cyan:    #22D3EE;
+    --green:   #4ADE80;
+    --amber:   #FBBF24;
+    --pink:    #F472B6;
+    --text:    #F0F2FF;
+    --text2:   #9BA3C7;
+    --muted:   #4B5280;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(108,99,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,99,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 5%;
+    background: rgba(8,11,20,0.8);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--pri), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--text2); text-decoration: none;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { background: var(--pri); color: #fff !important; padding: 8px 18px; border-radius: 8px; }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 120px 5% 80px; position: relative; overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute; top: -200px; right: -100px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute; bottom: -100px; left: 20%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(34,211,238,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 100px;
+    border: 1px solid rgba(108,99,255,0.3); background: rgba(108,99,255,0.08);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--pri);
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s infinite;
+  }
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800;
+    line-height: 1.0; letter-spacing: -0.04em;
+    animation: fadeUp 0.6s 0.1s ease both; margin-bottom: 8px;
+  }
+  .hero-name .accent { color: var(--pri); }
+  .hero-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.9rem, 2vw, 1.15rem); color: var(--cyan);
+    margin-bottom: 20px; animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-title::before { content: '// '; color: var(--muted); }
+  .hero-typewriter {
+    font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--text2); font-weight: 300;
+    margin-bottom: 40px; animation: fadeUp 0.6s 0.3s ease both; min-height: 2em;
+  }
+  .cursor {
+    display: inline-block; width: 2px; height: 1.2em;
+    background: var(--pri); vertical-align: text-bottom; margin-left: 2px;
+    animation: blink 1s infinite;
+  }
+  .hero-ctas {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--pri), #4F46E5);
+    color: #fff; padding: 14px 28px; border-radius: 10px;
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(108,99,255,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,99,255,0.45); }
+  .btn-outline {
+    border: 1px solid var(--border); color: var(--text2); padding: 14px 28px; border-radius: 10px;
+    text-decoration: none; font-weight: 500; font-size: 0.95rem;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    background: rgba(255,255,255,0.02);
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.2); color: var(--text); background: rgba(255,255,255,0.04); }
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px;
+    animation: fadeUp 0.6s 0.5s ease both;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; line-height: 1;
+    background: linear-gradient(135deg, var(--pri), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text2); margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 5%; position: relative; z-index: 1; }
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--pri);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .section-tag::before { content: '// '; color: var(--muted); }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+    letter-spacing: -0.03em; margin-bottom: 48px; line-height: 1.15;
+  }
+  .section-title span { color: var(--pri); }
+
+  /* ── ABOUT ── */
+  #about { background: var(--bg2); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .about-text p { color: var(--text2); font-size: 1.05rem; line-height: 1.75; margin-bottom: 16px; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .about-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px; position: relative; overflow: hidden;
+  }
+  .about-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--pri), var(--cyan));
+  }
+  .about-card-title {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px;
+  }
+  .lang-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .lang-name { font-weight: 500; font-size: 0.9rem; }
+  .lang-level { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+  .lang-bar-bg { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 16px; }
+  .lang-bar { height: 100%; border-radius: 2px; }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--bg); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .project-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px; position: relative; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    opacity: 0; transform: translateY(24px);
+  }
+  .project-card.visible {
+    opacity: 1; transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s;
+  }
+  .project-card:hover { transform: translateY(-4px); border-color: rgba(108,99,255,0.25); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 4px; bottom: 0; border-radius: 4px 0 0 4px;
+  }
+  .card-purple::before { background: linear-gradient(180deg, var(--pri), #4F46E5); }
+  .card-cyan::before   { background: linear-gradient(180deg, var(--cyan), #0891B2); }
+  .card-green::before  { background: linear-gradient(180deg, var(--green), #16A34A); }
+  .card-amber::before  { background: linear-gradient(180deg, var(--amber), #D97706); }
+  .card-pink::before   { background: linear-gradient(180deg, var(--pink), #DB2777); }
+
+  /* badge "privado" */
+  .project-private {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 6px;
+    background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.2);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--amber);
+    margin-left: 8px; vertical-align: middle;
+  }
+
+  .project-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+  .project-name { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; }
+  .project-link {
+    color: var(--muted); font-size: 0.8rem; text-decoration: none;
+    font-family: 'JetBrains Mono', monospace; transition: color 0.2s; white-space: nowrap;
+  }
+  .project-link:hover { color: var(--pri); }
+  .project-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 14px; }
+  .project-desc { color: var(--text2); font-size: 0.9rem; line-height: 1.65; margin-bottom: 20px; }
+  .project-impact {
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px; margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+  }
+  .impact-num { font-weight: 700; }
+  .c-purple { color: var(--pri); }
+  .c-cyan   { color: var(--cyan); }
+  .c-green  { color: var(--green); }
+  .c-amber  { color: var(--amber); }
+  .c-pink   { color: var(--pink); }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; border: 1px solid; }
+  .tag-purple { background: rgba(108,99,255,0.1); color: var(--pri);   border-color: rgba(108,99,255,0.2); }
+  .tag-cyan   { background: rgba(34,211,238,0.08); color: var(--cyan);  border-color: rgba(34,211,238,0.2); }
+  .tag-green  { background: rgba(74,222,128,0.08); color: var(--green); border-color: rgba(74,222,128,0.2); }
+  .tag-amber  { background: rgba(251,191,36,0.08); color: var(--amber); border-color: rgba(251,191,36,0.2); }
+  .tag-pink   { background: rgba(244,114,182,0.08); color: var(--pink); border-color: rgba(244,114,182,0.2); }
+  .tag-muted  { background: rgba(255,255,255,0.04); color: var(--text2); border-color: var(--border); }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg2); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .skill-group { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+  .skill-group-title { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-pill {
+    padding: 5px 12px; border-radius: 8px; font-size: 0.82rem; font-weight: 500;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text2);
+    transition: all 0.2s;
+  }
+  .skill-pill:hover { background: rgba(108,99,255,0.1); border-color: rgba(108,99,255,0.3); color: var(--text); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg); text-align: center; }
+  .contact-inner { max-width: 640px; margin: 0 auto; }
+  .contact-email {
+    font-family: 'Syne', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700;
+    color: var(--text); text-decoration: none; display: block; margin: 20px 0 36px; transition: color 0.2s;
+  }
+  .contact-email:hover { color: var(--pri); }
+  .social-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; }
+  .social-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 22px; border-radius: 10px; border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03); color: var(--text2); text-decoration: none;
+    font-size: 0.88rem; font-weight: 500; transition: all 0.2s;
+  }
+  .social-btn:hover { border-color: rgba(108,99,255,0.4); background: rgba(108,99,255,0.08); color: var(--text); }
+  .contact-availability {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 100px;
+    background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2);
+    font-size: 0.82rem; color: var(--green); font-family: 'JetBrains Mono', monospace;
+  }
+  .avail-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 24px 5%; text-align: center; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace;
+  }
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0 5%; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.3); } }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">MG</a>
+  <ul class="nav-links">
+    <li><a href="#about">sobre mí</a></li>
+    <li><a href="#projects">proyectos</a></li>
+    <li><a href="#skills">stack</a></li>
+    <li><a href="#contact" class="nav-cta">contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    Disponible para proyectos freelance
+  </div>
+
+  <h1 class="hero-name">
+    Mateo<br><span class="accent">Gotelli</span>
+  </h1>
+
+  <div class="hero-title">desarrollador full-stack & automatización con ia</div>
+
+  <div class="hero-typewriter">
+    <span id="typewriter"></span><span class="cursor"></span>
+  </div>
+
+  <div class="hero-ctas">
+    <a href="#projects" class="btn-primary">Ver proyectos →</a>
+    <a href="#contact" class="btn-outline">Contacto</a>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-tag">sobre mí</div>
+  <h2 class="section-title">Construyo herramientas que <span>eliminan</span><br>el trabajo manual</h2>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        Soy <strong>estudiante de 3er año de Ingeniería en Informática</strong> en la Universidad del Salvador (Buenos Aires) con experiencia real en producción. No solo armo demos — mi trabajo corre en vivo, usado todos los días por equipos reales.
+      </p>
+      <p>
+        Me especializo en combinar <strong>desarrollo full-stack</strong> con <strong>automatización con IA</strong>. Uso Claude API y OpenAI para construir sistemas que leen documentos, extraen datos y toman decisiones — convirtiendo horas de trabajo manual en segundos.
+      </p>
+      <p>
+        Desarrollé la plataforma completa de gestión para <strong>CITSA</strong> en 5 días: análisis de PDFs con IA, presupuestos, base de clientes y backups automáticos. Pasó de cero a 10 usuarios activos diarios.
+      </p>
+    </div>
+
+    <div class="reveal">
+      <div class="about-card" style="margin-bottom:16px;">
+        <div class="about-card-title">// idiomas</div>
+        <div class="lang-row">
+          <span class="lang-name">Español</span>
+          <span class="lang-level" style="color:var(--pri)">Nativo</span>
+        </div>
+        <div class="lang-bar-bg"><div class="lang-bar" style="width:100%;background:var(--pri)"></div></div>
+        <div class="lang-row">
+          <span class="lang-name">Inglés</span>
+          <span class="lang-level" style="color:var(--cyan)">Nativo</span>
+        </div>
+        <div class="lang-bar-bg"><div class="lang-bar" style="width:100%;background:var(--cyan)"></div></div>
+        <div class="lang-row">
+          <span class="lang-name">Portugués</span>
+          <span class="lang-level" style="color:var(--green)">Fluido</span>
+        </div>
+        <div class="lang-bar-bg" style="margin-bottom:0"><div class="lang-bar" style="width:87%;background:var(--green)"></div></div>
+      </div>
+
+      <div class="about-card">
+        <div class="about-card-title">// educación</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <div style="font-weight:600;font-size:0.9rem;">Ingeniería en Informática</div>
+            <div style="color:var(--pri);font-size:0.8rem;margin:2px 0;">Universidad del Salvador (USAL)</div>
+            <div style="color:var(--muted);font-size:0.75rem;font-family:'JetBrains Mono',monospace;">2023 — Presente</div>
+          </div>
+          <div style="height:1px;background:var(--border)"></div>
+          <div>
+            <div style="font-weight:600;font-size:0.9rem;">Bachiller</div>
+            <div style="color:var(--text2);font-size:0.8rem;margin:2px 0;">St. John's School</div>
+            <div style="color:var(--muted);font-size:0.75rem;font-family:'JetBrains Mono',monospace;">2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-tag">trabajo</div>
+  <h2 class="section-title">Proyectos enviados a <span>producción</span></h2>
+
+  <div class="projects-grid">
+
+    <!-- CITSA -->
+    <div class="project-card card-purple">
+      <div class="project-header">
+        <div class="project-name">CITSA Lab System</div>
+        <a href="https://matugot.github.io/citsa-lab-system" target="_blank" class="project-link">↗ demo en vivo</a>
+      </div>
+      <div class="project-tag">Full-Stack · IA · En producción</div>
+      <p class="project-desc">
+        Plataforma completa de gestión para un centro de investigaciones toxicológicas. La IA lee PDFs de licitaciones, identifica los análisis requeridos, los mapea contra un catálogo de 300+ servicios y genera el presupuesto completo en segundos.
+      </p>
+      <div class="project-impact">
+        <span class="impact-num c-purple">2h → &lt;5min</span> &nbsp;·&nbsp;
+        <span class="c-cyan">10 usuarios activos</span> &nbsp;·&nbsp;
+        <span class="c-green">5 días de desarrollo</span>
+      </div>
+      <div class="tags">
+        <span class="tag tag-cyan">React 18</span>
+        <span class="tag tag-green">Node.js</span>
+        <span class="tag tag-amber">PostgreSQL</span>
+        <span class="tag tag-purple">Claude API</span>
+        <span class="tag tag-muted">TypeScript</span>
+        <span class="tag tag-muted">JWT</span>
+      </div>
+    </div>
+
+    <!-- Vaultly -->
+    <div class="project-card card-amber">
+      <div class="project-header">
+        <div class="project-name">
+          Vaultly
+          <span class="project-private">🔒 privado</span>
+        </div>
+      </div>
+      <div class="project-tag">Full-Stack · Seguridad · Cifrado end-to-end</div>
+      <p class="project-desc">
+        Bóveda personal de contraseñas con cifrado AES-256 en el cliente — las contraseñas nunca viajan ni se almacenan en texto plano. Incluye generador de contraseñas seguras, categorías, búsqueda rápida y exportación cifrada. Zero-knowledge por diseño.
+      </p>
+      <div class="project-impact">
+        <span class="c-amber">AES-256 client-side</span> &nbsp;·&nbsp;
+        <span class="impact-num c-green">Zero-knowledge</span>
+      </div>
+      <div class="tags">
+        <span class="tag tag-cyan">React 18</span>
+        <span class="tag tag-amber">Web Crypto API</span>
+        <span class="tag tag-green">Node.js</span>
+        <span class="tag tag-muted">TypeScript</span>
+        <span class="tag tag-muted">PostgreSQL</span>
+      </div>
+    </div>
+
+    <!-- Asistente Personal IA -->
+    <div class="project-card card-pink">
+      <div class="project-header">
+        <div class="project-name">
+          Asistente Personal IA
+          <span class="project-private">🔒 privado</span>
+        </div>
+      </div>
+      <div class="project-tag">Python · IA · Automatización personal</div>
+      <p class="project-desc">
+        Asistente de escritorio con memoria persistente a largo plazo, acceso a calendario, gestión de tareas y búsqueda web. Entiende contexto conversacional, aprende preferencias del usuario y ejecuta acciones en el sistema. Corre 100% local.
+      </p>
+      <div class="project-impact">
+        <span class="c-pink">Memoria persistente</span> &nbsp;·&nbsp;
+        <span class="impact-num c-cyan">100% local</span>
+      </div>
+      <div class="tags">
+        <span class="tag tag-cyan">Python</span>
+        <span class="tag tag-purple">Claude API</span>
+        <span class="tag tag-pink">LangChain</span>
+        <span class="tag tag-amber">SQLite</span>
+        <span class="tag tag-muted">CustomTkinter</span>
+      </div>
+    </div>
+
+    <!-- Telegram Bot -->
+    <div class="project-card card-cyan">
+      <div class="project-header">
+        <div class="project-name">Telegram AI Chatbot</div>
+        <a href="https://github.com/Matugot/telegram-ai-bot" target="_blank" class="project-link">↗ github</a>
+      </div>
+      <div class="project-tag">Python · Bot · OpenAI</div>
+      <p class="project-desc">
+        Bot de Telegram listo para producción con integración GPT, memoria de conversación por usuario y system prompt personalizable. Un solo deploy, múltiples clientes. Arquitectura async — cero bloqueos.
+      </p>
+      <div class="project-impact">
+        <span class="c-cyan">Memoria por usuario</span> &nbsp;·&nbsp;
+        <span class="impact-num c-amber">Multi-cliente</span>
+      </div>
+      <div class="tags">
+        <span class="tag tag-cyan">Python</span>
+        <span class="tag tag-purple">OpenAI API</span>
+        <span class="tag tag-muted">asyncio</span>
+        <span class="tag tag-muted">python-telegram-bot</span>
+      </div>
+    </div>
+
+    <!-- Report Generator -->
+    <div class="project-card card-green">
+      <div class="project-header">
+        <div class="project-name">AI Report Generator</div>
+        <a href="https://github.com/Matugot/ai-report-generator" target="_blank" class="project-link">↗ github</a>
+      </div>
+      <div class="project-tag">Python · Automatización · PDF</div>
+      <p class="project-desc">
+        Subís un CSV o Excel y obtenés un PDF profesional con análisis generado por IA, gráficos e insights en segundos. Cero pasos manuales. Scheduleable via cron o Task Scheduler para pipelines de reportes totalmente automáticos.
+      </p>
+      <div class="project-impact">
+        <span class="c-green">CSV/Excel → PDF</span> &nbsp;·&nbsp;
+        <span class="impact-num c-amber">Cero pasos manuales</span>
+      </div>
+      <div class="tags">
+        <span class="tag tag-cyan">Python</span>
+        <span class="tag tag-green">pandas</span>
+        <span class="tag tag-purple">OpenAI API</span>
+        <span class="tag tag-amber">ReportLab</span>
+        <span class="tag tag-muted">matplotlib</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-tag">stack</div>
+  <h2 class="section-title">Tecnologías con las que <span>trabajo</span></h2>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">// IA & APIs</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Claude API</span>
+        <span class="skill-pill">OpenAI API</span>
+        <span class="skill-pill">Prompt Engineering</span>
+        <span class="skill-pill">Análisis de PDFs</span>
+        <span class="skill-pill">LangChain</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">// Frontend</div>
+      <div class="skill-pills">
+        <span class="skill-pill">React 18</span>
+        <span class="skill-pill">TypeScript</span>
+        <span class="skill-pill">Vite</span>
+        <span class="skill-pill">shadcn/ui</span>
+        <span class="skill-pill">Tailwind CSS</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">// Backend</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Node.js</span>
+        <span class="skill-pill">Express</span>
+        <span class="skill-pill">PostgreSQL</span>
+        <span class="skill-pill">Drizzle ORM</span>
+        <span class="skill-pill">JWT</span>
+        <span class="skill-pill">REST APIs</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">// Python & Automatización</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">pandas</span>
+        <span class="skill-pill">asyncio</span>
+        <span class="skill-pill">ReportLab</span>
+        <span class="skill-pill">Web Scraping</span>
+        <span class="skill-pill">Automatización de tareas</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">// Deploy & Herramientas</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Git / GitHub</span>
+        <span class="skill-pill">Railway</span>
+        <span class="skill-pill">Vercel</span>
+        <span class="skill-pill">Replit</span>
+        <span class="skill-pill">GitHub Pages</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">// servicios que ofrezco</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Análisis de documentos con IA</span>
+        <span class="skill-pill">Chatbots</span>
+        <span class="skill-pill">Reportes automáticos</span>
+        <span class="skill-pill">Web Scraping</span>
+        <span class="skill-pill">Apps Full-Stack</span>
+        <span class="skill-pill">Integraciones de APIs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-tag" style="text-align:center">contacto</div>
+    <h2 class="section-title reveal" style="text-align:center">
+      Construyamos algo<br><span>juntos</span>
+    </h2>
+
+    <div class="contact-availability reveal">
+      <span class="avail-dot"></span>
+      Disponible para proyectos — entrega rápida
+    </div>
+
+    <a href="mailto:matugotelli@gmail.com" class="contact-email reveal">
+      matugotelli@gmail.com
+    </a>
+
+    <div class="social-links reveal">
+      <a href="https://github.com/Matugot" target="_blank" class="social-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.upwork.com" target="_blank" class="social-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg>
+        Upwork
+      </a>
+      <a href="https://www.workana.com" target="_blank" class="social-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        Workana
+      </a>
+      <a href="https://matugot.github.io/citsa-lab-system" target="_blank" class="social-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        Demo CITSA
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Mateo Gotelli · Buenos Aires, Argentina · 2025</span>
+</footer>
+
+<script>
+  // ── TYPEWRITER ──
+  const phrases = [
+    "Construyo herramientas que ahorran horas de trabajo manual.",
+    "Integro IA en flujos de trabajo reales.",
+    "Llevo proyectos de cero a producción en días.",
+    "Convierto tareas repetitivas en pipelines automatizados.",
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typewriter');
+  function type() {
+    const phrase = phrases[pi];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++ci);
+      if (ci === phrase.length) { deleting = true; setTimeout(type, 2200); return; }
+    } else {
+      el.textContent = phrase.slice(0, --ci);
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(type, deleting ? 28 : 52);
+  }
+  type();
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .project-card').forEach(el => observer.observe(el));
+
+  // ── NAV SCROLL ──
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 40 ? 'rgba(8,11,20,0.95)' : 'rgba(8,11,20,0.8)';
+  });
+</script>
+</body>
+</html>
